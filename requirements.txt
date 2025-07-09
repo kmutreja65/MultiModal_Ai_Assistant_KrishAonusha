@@ -1,0 +1,8 @@
+streamlit
+wikipedia
+pyttsx3
+opencv-python
+matplotlib
+numpy
+SpeechRecognition
+pyaudio
