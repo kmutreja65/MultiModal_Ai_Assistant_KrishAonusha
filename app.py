@@ -47,10 +47,10 @@ def show_chart(topic):
 def show_diagram(topic):
     if "flip flop" in topic:
         st.subheader("🖼 SR Flip Flop Diagram")
-        st.image("sr_flip_flop.png", use_column_width=True)
+        st.image("logic-circuit-diagram-of-sr-flip-flop.jpg", use_column_width=True)
     elif "neural network" in topic:
         st.subheader("🧠 Neural Network Diagram")
-        st.image("perceptron_diagram.png", use_column_width=True)
+        st.image("3-s2.0-B9780128234884000011-f01-07-9780128234884.jpg", use_column_width=True)
 
 # ========== Custom styling
 st.markdown("""
@@ -89,33 +89,66 @@ else:
 st.markdown("<h1 style='text-align: center; color: #90caf9;'>🚀 AI Classroom Assistant</h1>", unsafe_allow_html=True)
 
 # --- Ask anything ---
-col1, col2 = st.columns([2,1])
+import streamlit as st
+
+# --- Custom CSS ---
+st.markdown("""
+<style>
+.big-box {
+    background-color: #1e1e2f;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+.subtext {
+    color: #cccccc;
+    font-size: 16px;
+}
+.smalltext {
+    color: #999999;
+    font-size: 15px;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# --- Title ---
+st.markdown("## 🚀 AI Classroom Assistant")
+
+# --- Ask Anything ---
+col1, col2 = st.columns([2, 1])
 with col1:
     st.subheader("💬 Ask Me Anything")
     question = st.text_input("Type your question here:")
+
     if st.button("🎤 Speak Your Question"):
         spoken_text = recognize_speech()
         question = spoken_text
         st.success(f"Recognized: {spoken_text}")
+        answer = assistant.smart_answer(question)
+        st.success(f"**AI:** {answer}")
+        speak_text(answer)
+        show_chart(question.lower())
+        show_diagram(question.lower())
+
     if st.button("💡 Get Answer"):
         answer = assistant.smart_answer(question)
         st.success(f"**AI:** {answer}")
         speak_text(answer)
         show_chart(question.lower())
         show_diagram(question.lower())
-    st.markdown("</div>", unsafe_allow_html=True)
 
 with col2:
-    st.markdown("""
-        <div class='card' style='text-align:center;'>
-            <h3>🤖 About</h3>
-            <p>Ask by typing or speaking. I’ll answer & show visual aids.</p>
-            <p>Try: <i>"Probability trends"</i> or <i>"SR Flip Flop"</i></p>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="big-box">', unsafe_allow_html=True)
+    st.markdown("### 🤖 About", unsafe_allow_html=True)
+    st.markdown('<p class="subtext">Ask by typing or speaking.<br>I’ll answer & show visual aids.</p>', unsafe_allow_html=True)
+    st.markdown('<p class="smalltext">Try: <i>\"Probability trends\"</i> or <i>\"SR Flip Flop\"</i></p>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-# --- Engagement check ---
-col3, col4 = st.columns([1,2])
+# --- Engagement Check ---
+col3, col4 = st.columns([1, 2])
 with col3:
     st.subheader("🧑‍🎓 Engagement")
     if st.button("📷 Check Webcam"):
@@ -124,13 +157,12 @@ with col3:
             st.error("No face detected. Possibly distracted.")
         else:
             st.success("Face detected. Attentive!")
-    st.markdown("</div>", unsafe_allow_html=True)
 
 with col4:
-    st.markdown("""
-        <div class='highlight'>
-            <h4>🎯 Why engagement checks?</h4>
-            <p>Face checks detect attention. Fewer faces = slow down, repeat; more faces = continue.</p>
-        </div>
-    """, unsafe_allow_html=True)
-st.markdown("<center><small style='color:grey;'>Built with ❤️ using Streamlit — by Krish&Aonusha </small></center>", unsafe_allow_html=True)
+    st.markdown('<div class="big-box">', unsafe_allow_html=True)
+    st.markdown("### 🎯 Why engagement checks?", unsafe_allow_html=True)
+    st.markdown('<p class="subtext">Face checks detect attention. Fewer faces = slow down, repeat; more faces = continue.</p>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# --- Footer ---
+st.markdown("<center><small style='color:grey;'>Built with ❤️ using Streamlit — by Krish & Aonusha</small></center>", unsafe_allow_html=True)
